@@ -10,9 +10,11 @@ load_dotenv()
 client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
 # Dane z .env
-QDRANT_URL = os.getenv("QDRANT_URL")
-QDRANT_API_KEY = os.getenv("QDRANT_API_KEY")
-COLLECTION_NAME = "bajki"
+q_client = QdrantClient(
+    url=st.secrets["QDRANT_URL"],
+    api_key=st.secrets["QDRANT_API_KEY"],
+    prefer_grpc=False
+)
 
 def inicjalizuj_baze():
     """Tworzy lokalną bazę danych SQLite."""
@@ -97,3 +99,4 @@ if st.button("Wygeneruj i zapisz bajkę ✨"):
     except Exception as e:
         st.error(f"❌ Wystąpił błąd: {e}")
         
+
