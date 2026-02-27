@@ -1,7 +1,7 @@
 # 🧙‍♂️ Generator Bajek dla Dzieci (AI & Vector Search)
 
-### Problem: Rodzice często chcą opowiadać dzieciom spersonalizowane bajki (np. z dzieckiem jako głównym bohaterem), ale brakuje im kreatywności lub czasu na wymyślanie nowych historii co wieczór.
-### Rozwiązanie: Aplikacja, która na podstawie kilku tagów (np. imię dziecka, ulubione zwierzę, morał: "warto pomagać innym") generuje krótką, ciekawą bajkę.
+* **Problem: Rodzice często chcą opowiadać dzieciom spersonalizowane bajki (np. z dzieckiem jako głównym bohaterem), ale brakuje im kreatywności lub czasu na wymyślanie nowych historii co wieczór.
+* **Rozwiązanie: Aplikacja, która na podstawie kilku tagów (np. imię dziecka, ulubione zwierzę, morał: "warto pomagać innym") generuje krótką, ciekawą bajkę.
 
 Aplikacja wykorzystująca model GPT-4o do tworzenia spersonalizowanych bajek z zapisem wektorowym w chmurze.
 
