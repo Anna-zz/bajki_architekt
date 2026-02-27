@@ -2,17 +2,43 @@ import streamlit as st
 import sqlite3
 import os
 import uuid
-import requests  
+import requests
+from dotenv import load_dotenv
 from openai import OpenAI
 
-# Pobieranie klucza OpenAI ze Streamlit Secrets
-client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+# 1. Ładujemy .env (zadziała lokalnie w VS Code)
+load_dotenv()
 
-# Dane Qdrant też ze Streamlit Secrets
-QDRANT_URL = st.secrets["QDRANT_URL"]
-QDRANT_API_KEY = st.secrets["QDRANT_API_KEY"]
-COLLECTION_NAME = "bajki"
+# 2. Sidebar dla użytkownika
+with st.sidebar:
+    st.title("🔑 Konfiguracja API")
+    user_key = st.text_input("Wpisz swój OpenAI API Key (opcjonalnie):", type="password")
 
+# 3. UNIWERSALNE POBIERANIE KLUCZA (Kluczowy moment!)
+def get_api_key(name):
+    # Najpierw: Sprawdź czy użytkownik wpisał swój klucz w Sidebarze
+    if name == "OPENAI_API_KEY" and user_key:
+        return user_key
+    # Potem: Sprawdź bezpiecznie w Streamlit Secrets (dla Cloud)
+    try:
+        if name in st.secrets:
+            return st.secrets[name]
+    except:
+        pass # Jeśli nie ma secrets, idź dalej
+    # Na końcu: Sprawdź w .env lub systemie (lokalnie w VS Code)
+    return os.getenv(name)
+
+# 4. PRZYPISANIE KLUCZY (zadziała i tu, i tam)
+openai_key = get_api_key("OPENAI_API_KEY")
+q_url = get_api_key("QDRANT_URL")
+q_key = get_api_key("QDRANT_API_KEY")
+
+# Sprawdzenie czy mamy klucz OpenAI przed startem
+if not openai_key:
+    st.error("❌ Brak klucza OpenAI API! Wpisz go w panelu bocznym lub dodaj do .env")
+    st.stop()
+
+client = OpenAI(api_key=openai_key)
 def inicjalizuj_baze():
     """Tworzy lokalną bazę danych SQLite."""
     conn = sqlite3.connect('bajki_dzieci.db')
@@ -95,5 +121,7 @@ if st.button("Wygeneruj i zapisz bajkę ✨"):
             
     except Exception as e:
         st.error(f"❌ Wystąpił błąd: {e}")
+
+
 
 
