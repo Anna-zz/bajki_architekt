@@ -15,4 +15,4 @@ W procesie rozwoju aplikacji wprowadzono poprawki stabilności, bezpieczeństwa 
 2. Zainstaluj biblioteki: `pip install -r requirements.txt`
 3. **Uruchomienie:** 
    * Możesz stworzyć plik `.env` z kluczami `OPENAI_API_KEY`, `QDRANT_URL`, `QDRANT_API_KEY`.
-   * **LUB** po prostu uruchom aplikację komendą `streamlit run app.py` i wpisz swój klucz OpenAI bezpośrednio w interfejsie aplikacji.QDRANT_API_KEY=twoj-klucz-api
+   * **LUB** po prostu uruchom aplikację komendą `streamlit run app.py` i wpisz swój klucz OpenAI bezpośrednio w interfejsie aplikacji.
