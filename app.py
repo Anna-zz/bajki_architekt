@@ -2,19 +2,16 @@ import streamlit as st
 import sqlite3
 import os
 import uuid
-import requests  # Zamiast qdrant-client, używamy standardowego requests
-from dotenv import load_dotenv
+import requests  
 from openai import OpenAI
 
-load_dotenv() 
+# Pobieranie klucza OpenAI ze Streamlit Secrets
 client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
-# Dane z .env
-q_client = QdrantClient(
-    url=st.secrets["QDRANT_URL"],
-    api_key=st.secrets["QDRANT_API_KEY"],
-    prefer_grpc=False
-)
+# Dane Qdrant też ze Streamlit Secrets
+QDRANT_URL = st.secrets["QDRANT_URL"]
+QDRANT_API_KEY = st.secrets["QDRANT_API_KEY"]
+COLLECTION_NAME = "bajki"
 
 def inicjalizuj_baze():
     """Tworzy lokalną bazę danych SQLite."""
@@ -98,5 +95,5 @@ if st.button("Wygeneruj i zapisz bajkę ✨"):
             
     except Exception as e:
         st.error(f"❌ Wystąpił błąd: {e}")
-        
+
 
