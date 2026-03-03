@@ -30,8 +30,9 @@ def get_api_key(name):
 
 # 4. PRZYPISANIE KLUCZY (zadziała i tu, i tam)
 openai_key = get_api_key("OPENAI_API_KEY")
-q_url = get_api_key("QDRANT_URL")
-q_key = get_api_key("QDRANT_API_KEY")
+QDRANT_URL = get_api_key("QDRANT_URL")
+QDRANT_API_KEY = get_api_key("QDRANT_API_KEY")
+COLLECTION_NAME = "bajki" 
 
 # Sprawdzenie czy mamy klucz OpenAI przed startem
 if not openai_key:
@@ -121,6 +122,7 @@ if st.button("Wygeneruj i zapisz bajkę ✨"):
             
     except Exception as e:
         st.error(f"❌ Wystąpił błąd: {e}")
+        
 
 
 
