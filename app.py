@@ -16,23 +16,25 @@ with st.sidebar:
 
 # 3. UNIWERSALNE POBIERANIE KLUCZA (Kluczowy moment!)
 def get_api_key(name):
-    # Najpierw: Sprawdź czy użytkownik wpisał swój klucz w Sidebarze
-    if name == "OPENAI_API_KEY" and user_key:
-        return user_key
-    # Potem: Sprawdź bezpiecznie w Streamlit Secrets (dla Cloud)
+    # Jeśli szukamy klucza OpenAI, bierzemy TYLKO to co wpisał użytkownik
+    if name == "OPENAI_API_KEY":
+        return user_key if user_key != "" else None
+    
+    # Dla reszty (Qdrant) zostawiamy starą logikę
     try:
-        if name in st.secrets:
-            return st.secrets[name]
-    except:
-        pass # Jeśli nie ma secrets, idź dalej
-    # Na końcu: Sprawdź w .env lub systemie (lokalnie w VS Code)
+        if name in st.secrets: return st.secrets[name]
+    except: pass
     return os.getenv(name)
 
 # 4. PRZYPISANIE KLUCZY (zadziała i tu, i tam)
 openai_key = get_api_key("OPENAI_API_KEY")
 QDRANT_URL = get_api_key("QDRANT_URL")
 QDRANT_API_KEY = get_api_key("QDRANT_API_KEY")
-COLLECTION_NAME = "bajki" 
+COLLECTION_NAME = "bajki"  # <-- Przenieś to tutaj (nad if not openai_key)
+
+# Ciche zatrzymanie, jeśli brak klucza
+if not openai_key:
+    st.stop()
 
 # Sprawdzenie czy mamy klucz OpenAI przed startem
 if not openai_key:
@@ -114,6 +116,7 @@ if st.button("Wygeneruj i zapisz bajkę ✨"):
     try:
         with st.spinner('Piszę bajkę...'):
             wynik_bajki = generuj_bajke(imie_dz, postac, temat)
+
             st.subheader(f"Oto bajka dla {imie_dz}:")
             st.write(wynik_bajki)
             
@@ -122,6 +125,9 @@ if st.button("Wygeneruj i zapisz bajkę ✨"):
             
     except Exception as e:
         st.error(f"❌ Wystąpił błąd: {e}")
+
+
+
         
 
 
